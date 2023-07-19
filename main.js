@@ -1,29 +1,36 @@
 import './style.css'
 
+import cloud from './images/texture/cloud.png';
+import lava from './images/texture/lavatile.jpg';
+import volcanicImage from './images/texture/Volcanic.png';
+import volcanicNormalImage from './images/texture/VolcanicNormal.png';
+import earthImage from './images/texture/Earth.png';
+import earthNormalImage from './images/texture/EarthNormal.png';
+
 import * as THREE from 'three';
 
 const textureLoader = new THREE.TextureLoader();
 
 let clock = new THREE.Clock();
 
-const cloudTexture = textureLoader.load( '/images/texture/cloud.png' );
-const lavaTexture = textureLoader.load( '/images/texture/lavatile.jpg' );
+const cloudTexture = textureLoader.load(cloud);
+const lavaTexture = textureLoader.load(lava);
 
 lavaTexture.colorSpace = THREE.SRGBColorSpace;
 
 cloudTexture.wrapS = cloudTexture.wrapT = THREE.RepeatWrapping;
 lavaTexture.wrapS = lavaTexture.wrapT = THREE.RepeatWrapping;
 
-const volcanic = textureLoader.load( '/images/texture/Volcanic.png' );
-const volcanicNormal = textureLoader.load( '/images/texture/VolcanicNormal.jpg' );
+const volcanic = textureLoader.load(volcanicImage);
+const volcanicNormal = textureLoader.load(volcanicNormalImage);
 
 volcanic.colorSpace = THREE.SRGBColorSpace;
 
 volcanic.wrapS = cloudTexture.wrapT = THREE.RepeatWrapping;
 volcanicNormal.wrapS = lavaTexture.wrapT = THREE.RepeatWrapping;
 
-const earth = textureLoader.load( '/images/texture/Earth.png' );
-const earthNormal = textureLoader.load( '/images/texture/EarthNormal.jpg' );
+const earth = textureLoader.load(earthImage);
+const earthNormal = textureLoader.load(earthNormalImage);
 
 earth.colorSpace = THREE.SRGBColorSpace;
 
@@ -33,9 +40,9 @@ earthNormal.wrapS = lavaTexture.wrapT = THREE.RepeatWrapping;
 let uniforms = {
 
   'fogDensity': { value: 0.02 },
-  'fogColor': { value: new THREE.Vector3( 0, 0, 0 ) },
+  'fogColor': { value: new THREE.Vector3(0, 0, 0) },
   'time': { value: 1.0 },
-  'uvScale': { value: new THREE.Vector2( 3.0, 1.0 ) },
+  'uvScale': { value: new THREE.Vector2(3.0, 1.0) },
   'texture1': { value: cloudTexture },
   'texture2': { value: lavaTexture }
 
@@ -55,13 +62,13 @@ renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 const sunGeometry = new THREE.SphereGeometry(10, 24, 24);
-const sunMaterial = new THREE.ShaderMaterial( {
+const sunMaterial = new THREE.ShaderMaterial({
 
   uniforms: uniforms,
-  vertexShader: document.getElementById( 'vertexShader' ).textContent,
-  fragmentShader: document.getElementById( 'fragmentShader' ).textContent
+  vertexShader: document.getElementById('vertexShader').textContent,
+  fragmentShader: document.getElementById('fragmentShader').textContent
 
-} );
+});
 const sun = new THREE.Mesh(sunGeometry, sunMaterial);
 
 sun.position.set(0, 0, -11);
@@ -151,7 +158,7 @@ function animate() {
   // controls.update();
 
   const delta = 5 * clock.getDelta();
-  uniforms[ 'time' ].value += 0.2 * delta;
+  uniforms['time'].value += 0.2 * delta;
 
   renderer.render(scene, camera);
 }
