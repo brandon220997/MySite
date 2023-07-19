@@ -96,7 +96,7 @@ var earthPlaneMaterial = new THREE.MeshBasicMaterial({
   normalMap: earthNormal,
 });
 earthPlaneMaterial.color = new THREE.Color(1, 1, 1);
-var earthPlanetGeometry = new THREE.SphereGeometry(1.8, 24, 24);
+var earthPlanetGeometry = new THREE.SphereGeometry(3, 24, 24);
 
 var earthPlanetOrbit = new THREE.Mesh();
 var earthPlanet = new THREE.Mesh(earthPlanetGeometry, earthPlaneMaterial);
