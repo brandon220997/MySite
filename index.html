@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite App</title>
+</head>
+
+<body>
+
+  <!-- Shaders -->
+  <script id="fragmentShader" type="x-shader/x-fragment">
+
+    uniform float time;
+
+    uniform float fogDensity;
+    uniform vec3 fogColor;
+
+    uniform sampler2D texture1;
+    uniform sampler2D texture2;
+
+    varying vec2 vUv;
+
+    void main( void ) {
+
+      vec2 position = - 1.0 + 2.0 * vUv;
+
+      vec4 noise = texture2D( texture1, vUv );
+      vec2 T1 = vUv + vec2( 1.0, - 1.0 ) * time * 0.02;
+      vec2 T2 = vUv + vec2( - 0.3, 0.1 ) * time * 0.01;
+
+      T1.x += noise.x * 2.0;
+      T1.y += noise.y * 2.0;
+      T2.x -= noise.y * 0.2;
+      T2.y += noise.z * 0.2;
+
+      float p = texture2D( texture1, T1 * 2.0 ).a;
+
+      vec4 color = texture2D( texture2, T2 * 2.0 );
+      vec4 temp = color * ( vec4( p, p, p, p ) * 2.0 ) + ( color * color - 0.1 );
+
+      if( temp.r > 1.0 ) { temp.bg += clamp( temp.r - 2.0, 0.0, 100.0 ); }
+      if( temp.g > 1.0 ) { temp.rb += temp.g - 1.0; }
+      if( temp.b > 1.0 ) { temp.rg += temp.b - 1.0; }
+
+      gl_FragColor = temp;
+
+      float depth = gl_FragCoord.z / gl_FragCoord.w;
+      const float LOG2 = 1.442695;
+      float fogFactor = exp2( - fogDensity * fogDensity * depth * depth * LOG2 );
+      fogFactor = 1.0 - clamp( fogFactor, 0.0, 1.0 );
+
+      gl_FragColor = mix( gl_FragColor, vec4( fogColor, gl_FragColor.w ), fogFactor );
+
+    }
+
+  </script>
+
+  <script id="vertexShader" type="x-shader/x-vertex">
+
+    uniform vec2 uvScale;
+    varying vec2 vUv;
+
+    void main()
+    {
+
+      vUv = uvScale * uv;
+      vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+      gl_Position = projectionMatrix * mvPosition;
+
+    }
+
+  </script>
+
+  <div id="app"></div>
+
+  <canvas id="bg"></canvas>
+
+  <main>
+
+    <header>
+      <h1>Brandon Cramer</h1>
+      <p>A Brief Summary</p>
+    </header>
+
+
+    <blockquote>
+      <p>Because Life Shouldn't be One-Dimensional</p>
+    </blockquote>
+
+    <section>
+      <h2>Hi There!</h2>
+      <p>
+        Welcome to my site! I'm a full-stack (more backend) developer with a passion for games design and development.
+        Relatively new to the industry and still looking to grow meself.
+      </p>
+
+      <p>
+        Bored with regular resumes, This is just a playful take on what I'm capable of.
+      </p>
+
+      <p>
+        See my experiences and works below!
+      </p>
+
+    </section>
+
+    <section class="light">
+      <h2>🖥️ Work History</h2>
+
+      <h3><a href="https://sealadder.com/" target="_blank">SEALadder</a></h3>
+      <h4>Web Developer</h4>
+      <p>
+      <ul>
+        <li>Designed and Developed an Integration with Spotify to track their usage of podcasts using PostgreSQL and C#
+        </li>
+        <li>Created functions to interface with GraphQL APIs</li>
+        <li>Updated Email Template Editing and Sending System with Angular and C#</li>
+      </ul>
+      </p>
+
+      <h3><a href="https://rbs-tops.com/" target="_blank">Realtime Business Solutions</a></h3>
+      <h4>Junior Developer</h4>
+      <p>
+      <ul>
+        <li>Ported an existing Terminal Gate Operating System Interface (GOS) into the cloud as a cloud service using C#
+          and Oracle SQL.</li>
+        <li>Redesigned and implemented new process flow, UI Interaction and features for the new cloud service using
+          HTML, CSS, and JQuery.</li>
+        <li>Designed and Developed a common database library for database table conversion into data entities using C#
+          and Entity Framework.</li>
+        <li>Refactored and Simplified the Cloud Terminal Operating System.</li>
+      </ul>
+      </p>
+
+    </section>
+
+    <blockquote>
+      <p>Below are some personal projects and works I've done!</p>
+    </blockquote>
+
+    <section class="left">
+      <h2>👩🏽‍🚀 Projects</h2>
+
+      <h3>Rogue Rhapsody</h3>
+      <img src="./images/Rogue Rhapsody.png" alt="Rogue Rhapsody">
+      <p>
+        This is a 2D Top-Down Rhythm game me and my team made for our final project in our Game Design Studio
+        class.
+        It's a game where you play as a blind assassin escaping the underworld.
+        The catch is that you have to shoot to the beat of the music.
+        It was made using Unity and C#.
+      </p>
+
+      <h3><a href="https://brandon220.itch.io/rougesrhapsody" target="_blank">Try it out!</a></h3>
+      <br>
+      <br>
+
+      <h3>Coffee Mania</h3>
+      <img src="./images/Coffee Mania.png" alt="Coffee Mania">
+      <p>
+        This is a 3D Cafe Tycoon game where you run your own cafe.
+        Each stage have you making unique food and drinks for your customers.
+        You need to serve a large number of customers to get high scores.
+        It was made using Unity and C#.
+      </p>
+
+      <h3><a href="https://jiak1.itch.io/coffeemania" target="_blank">Have a Try!</a></h3>
+      <br>
+      <br>
+
+      <h3>Web Audio Visualizer</h3>
+      <img src="./images/Audio Visualizer.png" alt="Web Audio Visualizer">
+      <p>
+        This is a Web Audio Visualizer me and my team made as a computer graphics project.
+        It's a web app that takes in songs and creates visuals using the song's frequency.
+        It was made using Three.js and the Web Audio API.
+      </p>
+
+      <h3><a href="https://mellow-malabi-11dd8c.netlify.app/" target="_blank">See it in Action!</a></h3>
+      <br>
+      <br>
+
+    </section>
+
+    <blockquote>
+      <p>Thanks for visiting!</p>
+    </blockquote>
+
+
+  </main>
+
+  <script type="module" src="/main.js"></script>
+
+</body>
+
+</html>
