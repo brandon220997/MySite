@@ -6,24 +6,24 @@ const textureLoader = new THREE.TextureLoader();
 
 let clock = new THREE.Clock();
 
-const cloudTexture = textureLoader.load( './assets/texture/cloud.png' );
-const lavaTexture = textureLoader.load( './assets/texture/lavatile.jpg' );
+const cloudTexture = textureLoader.load( './images/texture/cloud.png' );
+const lavaTexture = textureLoader.load( './images/texture/lavatile.jpg' );
 
 lavaTexture.colorSpace = THREE.SRGBColorSpace;
 
 cloudTexture.wrapS = cloudTexture.wrapT = THREE.RepeatWrapping;
 lavaTexture.wrapS = lavaTexture.wrapT = THREE.RepeatWrapping;
 
-const volcanic = textureLoader.load( './assets/texture/Volcanic.png' );
-const volcanicNormal = textureLoader.load( './assets/texture/VolcanicNormal.jpg' );
+const volcanic = textureLoader.load( './images/texture/Volcanic.png' );
+const volcanicNormal = textureLoader.load( './images/texture/VolcanicNormal.jpg' );
 
 volcanic.colorSpace = THREE.SRGBColorSpace;
 
 volcanic.wrapS = cloudTexture.wrapT = THREE.RepeatWrapping;
 volcanicNormal.wrapS = lavaTexture.wrapT = THREE.RepeatWrapping;
 
-const earth = textureLoader.load( './assets/texture/Earth.png' );
-const earthNormal = textureLoader.load( './assets/texture/EarthNormal.jpg' );
+const earth = textureLoader.load( './images/texture/Earth.png' );
+const earthNormal = textureLoader.load( './images/texture/EarthNormal.jpg' );
 
 earth.colorSpace = THREE.SRGBColorSpace;
 
