@@ -183,3 +183,4 @@ function moveCamera() {
 }
 
 document.body.onscroll = moveCamera;
+window.onresize = moveCamera;
