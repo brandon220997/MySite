@@ -174,7 +174,7 @@ function moveCamera() {
   smallPlanet.rotation.y = t * -0.02;
 
   earthPlanetOrbit.rotation.y = 3.5 + t * -0.001;
-  earthPlanet.rotation.y = t * -0.02;
+  earthPlanet.rotation.y = t * -0.005;
 
   camera.position.z = t * -0.01;
   camera.position.x = t * -0.0002;
